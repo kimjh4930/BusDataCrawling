@@ -1,26 +1,43 @@
 package com.paper.dataprocessing;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.paper.domain.BusLineInfo;
+
 public class ProcessingHtmlData {
-	//정규식을 이용해서 데이터를 뽑아냄.
-	
-	public String getBusInfoFromRegex (String busHtml, String busRegex){
-		
+
+	public List<String> getBusInfoFromRegex(String busHtml, String busRegex) {
+
+		List<String> operateBusInfoList = new ArrayList<String>();
+
 		Pattern busInfoPattern = Pattern.compile(busRegex);
 		Matcher busInfoMatcher = busInfoPattern.matcher(busHtml.trim());
-		
-		String busLineInfo = "";
-		
-		while(busInfoMatcher.find()){
-			busLineInfo = busInfoMatcher.group(0).trim();
+
+		while (busInfoMatcher.find()) {
+			operateBusInfoList.add(busInfoMatcher.group(0).trim());
 		}
-		
-		return busLineInfo;
-		
+
+		return operateBusInfoList;
+
 	}
-	
-	
+
+	public BusLineInfo splitRawData(String splitWord, String rawData) {
+
+		String[] splitResult = rawData.split(splitWord);
+		BusLineInfo busLineInfo = new BusLineInfo();
+
+		busLineInfo.setBusLicense(splitResult[0]);
+		busLineInfo.setBusInterval(Integer.parseInt(splitResult[1]));
+		busLineInfo.setCurrentLocation(Integer.parseInt(splitResult[2]));
+		busLineInfo.setBusType(Integer.parseInt(splitResult[3]));
+		busLineInfo.setFormerBusLicense(Integer.parseInt(splitResult[4]));
+		busLineInfo.setBusInterval(Integer.parseInt(splitResult[5]));
+		// splitResult[6]은 잘 모르겠음.
+
+		return busLineInfo;
+	}
 
 }

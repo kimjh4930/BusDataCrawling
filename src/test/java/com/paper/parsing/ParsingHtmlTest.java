@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.paper.dataprocessing.ParsingHtml;
+
 public class ParsingHtmlTest {
 	
 	@Test
