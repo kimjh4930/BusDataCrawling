@@ -9,7 +9,7 @@ public class OutputBusData {
 	int arrivalTime;	//hhmmss
 	
 	int busStopId;
-	int hangingTIme;
+	int hangingTIme;	//걸린시간.
 	
 	int busNum;
 	int busLicenseNum;

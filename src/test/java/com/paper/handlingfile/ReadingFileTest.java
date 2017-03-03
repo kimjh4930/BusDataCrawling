@@ -16,15 +16,16 @@ public class ReadingFileTest {
 	public void readBusUrl_수행하면_버스번호와_연관된Url이_나온다(){
 		
 		String path = "/Users/junha/Documents/workspace/BusDataCrawling/";
-		String filename = "incheonbuslist.txt";
+		String filename = "IncheonYeonsuBus.txt";
 		
 		ReadingFile readingFile = new ReadingFile();
-		List<BusUrlInfo> busUrlInfo = new ArrayList<>();
+		List<BusUrlInfo> busUrlInfo = readingFile.readBusUrl1(path, filename);
 		
-		busUrlInfo = readingFile.readBusUrl(path, filename);
-		
-		//System.out.println(busUrlInfo.get(0).getBusURL());
-		assertEquals(521,busUrlInfo.get(0).getBusNum());
+//		for(int i=0; i< busUrlInfo.size(); i++){
+//			System.out.print(busUrlInfo.get(i).getBusNum() + ",");
+//			System.out.println(busUrlInfo.get(i).getBusURL());
+//		}
+
 		
 	}
 

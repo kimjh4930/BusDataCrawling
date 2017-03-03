@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.paper.domain.BusUrlInfo;
 
@@ -31,6 +32,7 @@ public class ReadingFile {
 			br = new BufferedReader(isr);
 			
 			while((temp = br.readLine()) != null ){
+				System.out.println(temp);
 				busUrlInfo.add(this.splitUrlData(",", temp));
 			}
 		}catch(FileNotFoundException e){
@@ -57,6 +59,31 @@ public class ReadingFile {
 			}
 		}
 		
+		
+		return busUrlInfo;
+		
+	}
+	
+	public List<BusUrlInfo> readBusUrl1(String path, String filename){
+		
+		List<BusUrlInfo> busUrlInfo = new ArrayList<>();
+		
+		File file = new File(path + filename);
+		String temp = "";
+		
+		try{
+			
+			Scanner scanner = new Scanner(file,"UTF-8");
+			
+			while((temp = scanner.nextLine()) != null){
+				System.out.println(temp);
+				this.splitUrlData(",", temp);
+				//busUrlInfo.add(this.splitUrlData(",", temp));
+			}
+			
+		}catch(Exception e){
+			
+		}
 		
 		return busUrlInfo;
 		

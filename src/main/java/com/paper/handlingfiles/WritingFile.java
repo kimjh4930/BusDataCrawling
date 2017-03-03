@@ -8,16 +8,18 @@ import com.paper.domain.OutputBusData;
 public class WritingFile {
 	
 	public void writeToFile(String path, OutputBusData outputBusData){
-	
-		//String filePath = "/Users/junha/Documents/workspace/BusDataCrawling/" + filename;
 		
 		try{
 			
-			File file = new File(path + "/"
-								//+ outputBusData.getBusNum() + "/"
-								+ outputBusData.getBusLicenseNum() + ".txt");
+			File directory = new File(path + "/" +outputBusData.getBusNum());
 			
-			//폴더에 안들어가짐 수정해야함.
+			if(!directory.exists()){
+				directory.mkdirs();
+			}
+			
+			File file = new File(path + "/"
+								+ outputBusData.getBusNum() + "/"
+								+ outputBusData.getBusLicenseNum() + ".txt");
 			
 			FileWriter fw = new FileWriter(file, true);
 			

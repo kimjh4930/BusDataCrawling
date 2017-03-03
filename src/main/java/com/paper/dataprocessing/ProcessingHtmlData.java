@@ -24,20 +24,28 @@ public class ProcessingHtmlData {
 
 	}
 
-	public BusLineInfo splitRawData(String splitWord, String rawData) {
+	public List<BusLineInfo> splitRawData(String splitWord, List<String> rawDataList) {
 
-		String[] splitResult = rawData.split(splitWord);
-		BusLineInfo busLineInfo = new BusLineInfo();
+		List<BusLineInfo> busLineInfoList = new ArrayList<>();
+		
+		for(String rawData : rawDataList){
+			
+			String[] splitResult = rawData.split(splitWord);
+			BusLineInfo busLineInfo = new BusLineInfo();
 
-		busLineInfo.setBusLicense(splitResult[0]);
-		busLineInfo.setBusInterval(Integer.parseInt(splitResult[1]));
-		busLineInfo.setCurrentLocation(Integer.parseInt(splitResult[2]));
-		busLineInfo.setBusType(Integer.parseInt(splitResult[3]));
-		busLineInfo.setFormerBusLicense(Integer.parseInt(splitResult[4]));
-		busLineInfo.setBusInterval(Integer.parseInt(splitResult[5]));
-		// splitResult[6]은 잘 모르겠음.
+			busLineInfo.setBusLicense(splitResult[0]);
+			busLineInfo.setBusInterval(Integer.parseInt(splitResult[1]));
+			busLineInfo.setCurrentLocation(Integer.parseInt(splitResult[2]));
+			busLineInfo.setBusType(Integer.parseInt(splitResult[3]));
+			busLineInfo.setFormerBusLicense(Integer.parseInt(splitResult[4]));
+			busLineInfo.setBusInterval(Integer.parseInt(splitResult[5]));
+			// splitResult[6]은 잘 모르겠음.
+			
+			busLineInfoList.add(busLineInfo);
+			
+		}
 
-		return busLineInfo;
+		return busLineInfoList;
 	}
 
 }
