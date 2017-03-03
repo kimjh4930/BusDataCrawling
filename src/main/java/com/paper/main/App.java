@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import com.paper.dataprocessing.ParsingHtml;
 import com.paper.dataprocessing.ProcessingHtmlData;
 import com.paper.domain.BusLineInfo;
@@ -16,7 +18,7 @@ import com.paper.handlingfiles.WritingFile;
 public class App {
 	
 	static final String busUrlInfoPath = "/Users/junha/Documents/workspace/BusDataCrawling/";
-	static final String busUrlInfoFileName = "incheonbuslist.txt";
+	static final String busUrlInfoFileName = "IncheonYeonsuBus.txt";
 	static final String busUrlBasic = "http://bus.incheon.go.kr/iwcm/retrieverouteruninfolist.laf?";
 	
 	static final String busRegex = String.format("\\d{7};\\d+;\\d+;\\d;\\d+;-?\\d+;\\d");
@@ -30,30 +32,39 @@ public class App {
 		String 				parsingHtmlResult = null;
 		
 		ReadingFile 		readBusNumUrl = new ReadingFile();
-		
-		List<String> 		rawBusData = new ArrayList<>();
-		List<BusLineInfo> 	busFinalInfo = new ArrayList<>();
-		
 		ParsingHtml 		parsingHtml = new ParsingHtml();
 		ProcessingHtmlData 	processingHtmlData = new ProcessingHtmlData();
 		
+		List<String> 		rawBusData = new ArrayList<>();
+		List<BusLineInfo> 	busFinalInfo = new ArrayList<>();
+		List<String> 		urlList;
+		List<BusUrlInfo>	busUrlInfoList;
 		
-		busUrlInfo = readBusNumUrl.readBusUrl(busUrlInfoPath, busUrlInfoFileName);
+		urlList = readBusNumUrl.readBusUrl(busUrlInfoPath, busUrlInfoFileName);
+		busUrlInfoList = readBusNumUrl.splitUrlData(",", urlList);
 		
-		for(int i=0; i<busUrlInfo.size(); i++){
-			
-			List<String> operateBusList = new ArrayList<>();
-			List<BusLineInfo> busLineInfoList = new ArrayList<>();
-			
-			WritingFile writingFile = new WritingFile();
-			
-			parsingHtmlResult = parsingHtml.DownloadHtml(busUrlInfo.get(i).getBusURL());
-			operateBusList = processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, busRegex);
-			
-			busLineInfoList = processingHtmlData.splitRawData(";", operateBusList);
-			
-			
+		System.out.println(busUrlInfoList.size());
+		
+		for(int i=0; i<busUrlInfoList.size(); i++){
+			//System.out.println(busUrlInfoList);
+			//System.out.println(urlList.get(i));
 		}
+		
+		
+//		for(int i=0; i<busUrlInfo.size(); i++){
+//			
+//			List<String> operateBusList = new ArrayList<>();
+//			List<BusLineInfo> busLineInfoList = new ArrayList<>();
+//			
+//			WritingFile writingFile = new WritingFile();
+//			
+//			parsingHtmlResult = parsingHtml.DownloadHtml(busUrlInfo.get(i).getBusURL());
+//			operateBusList = processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, busRegex);
+//			
+//			busLineInfoList = processingHtmlData.splitRawData(";", operateBusList);
+//			
+//			
+//		}
 		
 		
 		

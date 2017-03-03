@@ -14,7 +14,7 @@ import com.paper.domain.BusUrlInfo;
 
 public class ReadingFile {
 	
-	public List<BusUrlInfo> readBusUrl(String path, String filename){
+	public List<BusUrlInfo> readBusUrl1(String path, String filename){
 		
 		List<BusUrlInfo> busUrlInfo = new ArrayList<>();
 		
@@ -33,7 +33,7 @@ public class ReadingFile {
 			
 			while((temp = br.readLine()) != null ){
 				System.out.println(temp);
-				busUrlInfo.add(this.splitUrlData(",", temp));
+				//busUrlInfo.add(this.splitUrlData(",", temp));
 			}
 		}catch(FileNotFoundException e){
 			
@@ -59,14 +59,13 @@ public class ReadingFile {
 			}
 		}
 		
-		
 		return busUrlInfo;
 		
 	}
 	
-	public List<BusUrlInfo> readBusUrl1(String path, String filename){
+	public List<String> readBusUrl(String path, String filename){
 		
-		List<BusUrlInfo> busUrlInfo = new ArrayList<>();
+		List<String> busUrlInfo = new ArrayList<>();
 		
 		File file = new File(path + filename);
 		String temp = "";
@@ -76,9 +75,7 @@ public class ReadingFile {
 			Scanner scanner = new Scanner(file,"UTF-8");
 			
 			while((temp = scanner.nextLine()) != null){
-				System.out.println(temp);
-				this.splitUrlData(",", temp);
-				//busUrlInfo.add(this.splitUrlData(",", temp));
+				busUrlInfo.add(temp);
 			}
 			
 		}catch(Exception e){
@@ -89,16 +86,23 @@ public class ReadingFile {
 		
 	}
 	
-	public BusUrlInfo splitUrlData(String splitWord, String busNumUrl){
+	public List<BusUrlInfo> splitUrlData(String splitWord, List<String> busNumUrl){
 		
-		BusUrlInfo busUrlInfo = new BusUrlInfo();
+		List<BusUrlInfo> busUrlInfoList = new ArrayList<>();
 		
-		String[] splitResult = busNumUrl.split(splitWord);
+		for(int i=0; i<busNumUrl.size(); i++){
+			
+			BusUrlInfo busUrlInfo = new BusUrlInfo();
+			String[] splitResult = busNumUrl.get(i).split(splitWord);
+			
+			busUrlInfo.setBusNum(splitResult[0]);
+			busUrlInfo.setBusURL(splitResult[1]);
+			
+			busUrlInfoList.add(busUrlInfo);
+			
+		}
 		
-		busUrlInfo.setBusNum(Integer.parseInt(splitResult[0]));
-		busUrlInfo.setBusURL(splitResult[1]);
-		
-		return busUrlInfo;
+		return busUrlInfoList;
 	}
 
 }
