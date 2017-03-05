@@ -6,16 +6,17 @@ import lombok.Data;
 public class BusLineInfo {
 	
 	private int 	index;
+	private String	busNum;
 	private String 	date;
 	private long 	millisTime;
 	
 	private String 	busLicense;
-	private int 	busInterval;
-	private int 	currentLocation;
-	private int		busType;
+	private String 	busInterval;
+	private String 	currentLocation;
+	private String	busType;
 	
-	private int 	formerBusLicense;
-	private int 	formerBusLocation;
+	private String 	formerBusLicense;
+	private String 	formerBusLocation;
 	private String 	busIntervalTime;
 
 }

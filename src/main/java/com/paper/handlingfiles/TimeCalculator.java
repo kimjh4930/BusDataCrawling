@@ -2,9 +2,9 @@ package com.paper.handlingfiles;
 
 public class TimeCalculator {
 	
-	public int calculateTimeConsumption(int previousTime, int latestTime){
+	public int calculateTimeConsumption(String previousTime, String latestTime){
 		
-		return latestTime - previousTime;
+		return Integer.parseInt(latestTime) -Integer.parseInt(previousTime);
 		
 	}
 	

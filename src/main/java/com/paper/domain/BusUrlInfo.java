@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BusUrlInfo {
 	
-	String busNum;
-	String busURL;
+	private String busNum;
+	private String busUrl;
 
 }

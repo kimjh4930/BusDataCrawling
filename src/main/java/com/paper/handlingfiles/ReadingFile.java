@@ -96,7 +96,7 @@ public class ReadingFile {
 			String[] splitResult = busNumUrl.get(i).split(splitWord);
 			
 			busUrlInfo.setBusNum(splitResult[0]);
-			busUrlInfo.setBusURL(splitResult[1]);
+			busUrlInfo.setBusUrl(splitResult[1]);
 			
 			busUrlInfoList.add(busUrlInfo);
 			

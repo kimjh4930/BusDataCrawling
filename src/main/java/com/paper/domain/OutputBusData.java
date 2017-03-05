@@ -5,15 +5,14 @@ import lombok.Data;
 @Data
 public class OutputBusData {
 	
-	int Date;			//yymmdd
-	int arrivalTime;	//hhmmss
+	private String date;		//yymmdd
+	private String arrivalTime;	//hhmmss
 	
-	int busStopId;
-	int hangingTIme;	//걸린시간.
+	private String busStopId;
+	private int	   hangingTime;	//걸린시간.
 	
-	int busNum;
-	int busLicenseNum;
-	
+	private String busNum;
+	private String busLicenseNum;
 	
 	@Override
 	public String toString(){
@@ -21,9 +20,9 @@ public class OutputBusData {
 		return 	String.valueOf(this.getDate()) + "," + 
 				String.valueOf(this.getArrivalTime()) + "," + 
 				String.valueOf(this.getBusStopId()) + "," + 
-				String.valueOf(this.getHangingTIme()) + "," + 
+				String.valueOf(this.getHangingTime()) + "," + 
 				String.valueOf(this.getBusNum()) + "," + 
-				String.valueOf(this.getBusLicenseNum()) + "\n";
+				String.valueOf(this.getBusLicenseNum()) + ";";
 		
 	}
 	

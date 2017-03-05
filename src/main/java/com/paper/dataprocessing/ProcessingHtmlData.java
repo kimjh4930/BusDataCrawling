@@ -34,11 +34,11 @@ public class ProcessingHtmlData {
 			BusLineInfo busLineInfo = new BusLineInfo();
 
 			busLineInfo.setBusLicense(splitResult[0]);
-			busLineInfo.setBusInterval(Integer.parseInt(splitResult[1]));
-			busLineInfo.setCurrentLocation(Integer.parseInt(splitResult[2]));
-			busLineInfo.setBusType(Integer.parseInt(splitResult[3]));
-			busLineInfo.setFormerBusLicense(Integer.parseInt(splitResult[4]));
-			busLineInfo.setBusInterval(Integer.parseInt(splitResult[5]));
+			busLineInfo.setBusInterval(splitResult[1]);
+			busLineInfo.setCurrentLocation(splitResult[2]);
+			busLineInfo.setBusType(splitResult[3]);
+			busLineInfo.setFormerBusLicense(splitResult[4]);
+			busLineInfo.setBusInterval(splitResult[5]);
 			// splitResult[6]은 잘 모르겠음.
 			
 			busLineInfoList.add(busLineInfo);

@@ -22,7 +22,7 @@ public class ReadingFileTest {
 		
 		for(int i=0; i< busUrlInfo.size(); i++){
 			System.out.print(busUrlInfo.get(i).getBusNum() + ",");
-			System.out.println(busUrlInfo.get(i).getBusURL());
+			System.out.println(busUrlInfo.get(i).getBusUrl());
 		}
 
 		
