@@ -10,6 +10,7 @@ import java.util.Map;
 import com.paper.domain.BusLineInfo;
 import com.paper.domain.OutputBusData;
 import com.paper.handlingfiles.TimeCalculator;
+import com.paper.handlingfiles.WritingFile;
 
 public class BusInfoToFile {
 
@@ -43,9 +44,7 @@ public class BusInfoToFile {
 		return outputBusDataList;
 	}
 	
-	
-	public Map<String, OutputBusData> compareCurrentAndPast(Map<String, OutputBusData> recentBusLineInfoMap, List<OutputBusData> currentData){
-	//public Map<String, OutputBusData> compareCurrentAndPast(Map<String, OutputBusData> pastDataMap, List<OutputBusData> currentData){
+	public Map<String, OutputBusData> compareCurrentAndPast (Map<String, OutputBusData> recentBusLineInfoMap, List<OutputBusData> currentData){
 				
 		TimeCalculator timeCalculator = new TimeCalculator();
 		Map<String, OutputBusData> recentBusDataMap = new HashMap<>();
@@ -57,16 +56,19 @@ public class BusInfoToFile {
 			
 			if( !recentBusLineInfoMap.containsKey(currentData.get(i).getBusLicenseNum()) ){
 				//없음. 형식을 새로 생성해서 HashMap에 넣는다.
+				System.out.println("Hashmap에 넣음.");
 				recentBusLineInfoMap.put(currentData.get(i).getBusLicenseNum(), currentData.get(i));
 				
 				updatedBusData = currentData.get(i);
 				
 			}else{
 				//있으면 비교 진행.
+				System.out.println("있음.");
 				pastBusData = recentBusLineInfoMap.get(currentData.get(i).getBusLicenseNum());
 				
 				if( !recentBusLineInfoMap.get(currentData.get(i).getBusLicenseNum()).getBusStopId().equals(currentData.get(i).getBusStopId()) ){
 					//버스가 이동함.
+					System.out.println("버스가 이동함.");
 					
 					int elapseTime = timeCalculator.calculateTimeConsumption(pastBusData.getArrivalTime(), currentData.get(i).getArrivalTime());
 					
@@ -77,9 +79,15 @@ public class BusInfoToFile {
 					updatedBusData.setBusNum(currentData.get(i).getBusNum());
 					updatedBusData.setBusLicenseNum(currentData.get(i).getBusLicenseNum());
 					
+					//파일로 뺄 것.
+					WritingFile writingFile = new WritingFile();
+					
+					writingFile.writeToFile("/Users/junha/Documents/workspace/BusDataCrawling/", updatedBusData);
+					
 					
 				}else{
 					//버스가 이동하지 않음.
+					System.out.println("버스가 이동하지 않음.");
 					updatedBusData = pastBusData;
 					
 				}
