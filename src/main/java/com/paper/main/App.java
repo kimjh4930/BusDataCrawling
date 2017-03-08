@@ -17,7 +17,7 @@ import com.paper.handlingfiles.WritingFile;
 
 public class App {
 	
-	static final String busUrlInfoPath = "/Users/junha/Documents/workspace/BusDataCrawling/";
+	static final String busUrlInfoPath = "/Users/junha/Documents/workspace/";
 	static final String busUrlInfoFileName = "IncheonYeonsuBus.txt";
 	static final String busUrlBasic = "http://bus.incheon.go.kr/iwcm/retrieverouteruninfolist.laf?";
 	
@@ -44,6 +44,9 @@ public class App {
 		//버스번호, 번호판번호, 자료들.
 		Map<String, Map<String, OutputBusData>> recentBusLineInfoMap = new HashMap<>();
 		
+		//수정된 자료를 저장할 공간.
+		Map<String, Map<String, OutputBusData>> modifiedBusLineInfoMap = new HashMap<>();
+		
 		//이전 자료와 비교한 후 새로 보관하는 자료.
 		Map<String, Map<String, OutputBusData>> newBusLineInfoMap = new HashMap<>();
 		
@@ -51,20 +54,17 @@ public class App {
 		busUrlInfoList = readBusNumUrl.splitUrlData(",", urlList);
 		
 		
-		for(int i=0; i<busUrlInfoList.size(); i++){
-			
+		//for(int i=0; i<busUrlInfoList.size(); i++){
+		for(int i=0; i<1; i++){
 			List<OutputBusData> dataFromWebList = new ArrayList<>();
 			
 			String handleBusNum = busUrlInfoList.get(i).getBusNum();
-			
 			
 			parsingHtmlResult = parsingHtml.DownloadHtml(busUrlBasic + busUrlInfoList.get(i).getBusUrl());
 			operateBusList = processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, busRegex);
 			busLineInfoList = processingHtmlData.splitRawData(";", operateBusList);
 			
 			dataFromWebList = busInfoToFile.putOutToFile(handleBusNum, busLineInfoList);
-			
-			System.out.println(dataFromWebList);
 			
 			Map<String, OutputBusData> pairLicenseBusinfoMap = new HashMap<>();
 			
@@ -79,26 +79,28 @@ public class App {
 		
 		if(recentBusLineInfoMap.isEmpty()){
 			System.out.println("Enter");
-			recentBusLineInfoMap = newBusLineInfoMap;
+			recentBusLineInfoMap.putAll(newBusLineInfoMap);
 		}
 		
-		System.out.println("");
-		
-		for(int i=0; i<busUrlInfoList.size(); i++){
-			
-			String handleBusNum = busUrlInfoList.get(i).getBusNum();
-			List<OutputBusData> newBusDataList = new ArrayList<>(newBusLineInfoMap.get(handleBusNum).values());
+		//for(int i=0; i<busUrlInfoList.size(); i++){
+		for(int i=0; i<1; i++){
 			
 			Map<String, OutputBusData> updatedBusDataMap = new HashMap<>();
 			
+			String handleBusNum = busUrlInfoList.get(i).getBusNum();
+			
+			List<OutputBusData> newBusDataList = new ArrayList<>(newBusLineInfoMap.get(handleBusNum).values());
+			
 			updatedBusDataMap = busInfoToFile.compareCurrentAndPast(recentBusLineInfoMap.get(handleBusNum), newBusDataList);
 			
-			recentBusLineInfoMap.put(handleBusNum, updatedBusDataMap);
-			//argumentMap.put(recentBusLineInfoMap.get(handleBusNum).get, recentBusLineInfoMap.get(handleBusNum));
+			System.out.println(updatedBusDataMap);
 			
+			modifiedBusLineInfoMap.put(handleBusNum, updatedBusDataMap);
 		}
 		
-		System.out.println(recentBusLineInfoMap.equals(newBusLineInfoMap));
+		recentBusLineInfoMap.clear();
+		recentBusLineInfoMap.putAll(modifiedBusLineInfoMap);
+		
 	}
 
 }

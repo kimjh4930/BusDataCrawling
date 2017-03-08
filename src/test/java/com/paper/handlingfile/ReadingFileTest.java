@@ -14,7 +14,7 @@ public class ReadingFileTest {
 	@Test
 	public void readBusUrl_수행하면_버스번호와_연관된Url이_나온다(){
 		
-		String path = "/Users/junha/Documents/workspace/BusDataCrawling/";
+		String path = "/Users/junha/Documents/workspace/";
 		String filename = "IncheonYeonsuBus.txt";
 		
 		ReadingFile readingFile = new ReadingFile();
@@ -31,7 +31,7 @@ public class ReadingFileTest {
 	@Test
 	public void splitUrlData_리스트를_입력하면_split해서_list모델에_담긴다(){
 		
-		String busUrlInfoPath = "/Users/junha/Documents/workspace/BusDataCrawling/";
+		String busUrlInfoPath = "/Users/junha/Documents/workspace/";
 		String busUrlInfoFileName = "IncheonYeonsuBus.txt";
 		
 		ReadingFile		readBusNumUrl = new ReadingFile();

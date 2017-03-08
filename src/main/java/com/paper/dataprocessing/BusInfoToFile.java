@@ -56,19 +56,19 @@ public class BusInfoToFile {
 			
 			if( !recentBusLineInfoMap.containsKey(currentData.get(i).getBusLicenseNum()) ){
 				//없음. 형식을 새로 생성해서 HashMap에 넣는다.
-				System.out.println("Hashmap에 넣음.");
+				//System.out.println("Hashmap에 넣음.");
 				recentBusLineInfoMap.put(currentData.get(i).getBusLicenseNum(), currentData.get(i));
 				
 				updatedBusData = currentData.get(i);
 				
 			}else{
 				//있으면 비교 진행.
-				System.out.println("있음.");
+				//System.out.println("있음.");
 				pastBusData = recentBusLineInfoMap.get(currentData.get(i).getBusLicenseNum());
 				
 				if( !recentBusLineInfoMap.get(currentData.get(i).getBusLicenseNum()).getBusStopId().equals(currentData.get(i).getBusStopId()) ){
 					//버스가 이동함.
-					System.out.println("버스가 이동함.");
+					//System.out.println("버스가 이동함.");
 					
 					int elapseTime = timeCalculator.calculateTimeConsumption(pastBusData.getArrivalTime(), currentData.get(i).getArrivalTime());
 					
@@ -87,14 +87,14 @@ public class BusInfoToFile {
 					
 				}else{
 					//버스가 이동하지 않음.
-					System.out.println("버스가 이동하지 않음.");
+					//System.out.println("버스가 이동하지 않음.");
 					updatedBusData = pastBusData;
 					
 				}
 				
 			}
 			
-			recentBusDataMap.put(updatedBusData.getBusNum(), updatedBusData);
+			recentBusDataMap.put(currentData.get(i).getBusLicenseNum(), updatedBusData);
 			
 		}
 		
