@@ -1,8 +1,6 @@
 package com.paper.dataprocessing;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,18 +12,9 @@ import com.paper.handlingfiles.WritingFile;
 
 public class BusInfoToFile {
 
-	public List<OutputBusData> putOutToFile(String busNumber ,List<BusLineInfo> busLineInfoList){
-		
-		long currentTime = System.currentTimeMillis();
+	public List<OutputBusData> putOutToFile(String busNumber ,List<BusLineInfo> busLineInfoList, String day, String time){
 		
 		List<OutputBusData> outputBusDataList = new ArrayList<>();
-		
-		//현재시
-		SimpleDateFormat dayFormat = new SimpleDateFormat("yyMMdd");
-		SimpleDateFormat timeForamt = new SimpleDateFormat("HHmmss");
-		
-		String day = dayFormat.format(new Date(currentTime));
-		String time = timeForamt.format(new Date(currentTime));
 		
 		for(int i=0; i<busLineInfoList.size(); i++){
 			
@@ -34,7 +23,6 @@ public class BusInfoToFile {
 			outputBusData.setDate(day);
 			outputBusData.setArrivalTime(time);
 			outputBusData.setBusStopId(busLineInfoList.get(i).getCurrentLocation());
-			//outputBusData.setHangingTime(0);	//null값으로 내버려두고 작
 			outputBusData.setBusNum(busNumber);
 			outputBusData.setBusLicenseNum(busLineInfoList.get(i).getBusLicense());
 			
@@ -68,7 +56,7 @@ public class BusInfoToFile {
 				
 				if( !recentBusLineInfoMap.get(currentData.get(i).getBusLicenseNum()).getBusStopId().equals(currentData.get(i).getBusStopId()) ){
 					//버스가 이동함.
-					//System.out.println("버스가 이동함.");
+					System.out.println(currentData.get(i).getBusNum() + " " + currentData.get(i) + "버스가 이동함.");
 					
 					int elapseTime = timeCalculator.calculateTimeConsumption(pastBusData.getArrivalTime(), currentData.get(i).getArrivalTime());
 					
@@ -82,7 +70,7 @@ public class BusInfoToFile {
 					//파일로 뺄 것.
 					WritingFile writingFile = new WritingFile();
 					
-					writingFile.writeToFile("/Users/junha/Documents/workspace/BusDataCrawling/", updatedBusData);
+					writingFile.writeToFile("/Users/junha/Documents/workspace/BusDataCrawling/busResult", updatedBusData);
 					
 					
 				}else{

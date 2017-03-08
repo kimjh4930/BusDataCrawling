@@ -23,7 +23,7 @@ public class WritingFile {
 			
 			FileWriter fw = new FileWriter(file, true);
 			
-			fw.write(outputBusData.toString());
+			fw.write(outputBusData.toString() + "\n");
 			fw.flush();
 			
 			fw.close();

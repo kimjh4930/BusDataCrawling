@@ -1,9 +1,13 @@
 package com.paper.main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import com.paper.dataprocessing.BusInfoToFile;
 import com.paper.dataprocessing.ParsingHtml;
@@ -23,14 +27,54 @@ public class App {
 	
 	static final String busRegex = String.format("\\d{7};\\d+;\\d+;\\d;\\d+;-?\\d+;\\d");
 	
+	//버스번호, 번호판번호, 자료들.
+	static Map<String, Map<String, OutputBusData>> recentBusLineInfoMap;
+	
+	static Map<String, Map<String, OutputBusData>> modifiedBusLineInfoMap;
+	//이전 자료와 비교한 후 새로 보관하는 자료.
+	static Map<String, Map<String, OutputBusData>> newBusLineInfoMap;
+	
+	static private ReadingFile 			readBusNumUrl;
+	static private ParsingHtml 			parsingHtml;
+	static private ProcessingHtmlData 	processingHtmlData;
+	static private BusInfoToFile 		busInfoToFile;
+	
 	public static void main(String[] args){
 		
-		String 				parsingHtmlResult = null;
+		int sleepSec = 10;
 		
-		ReadingFile 		readBusNumUrl = new ReadingFile();
-		ParsingHtml 		parsingHtml = new ParsingHtml();
-		ProcessingHtmlData 	processingHtmlData = new ProcessingHtmlData();
-		BusInfoToFile 		busInfoToFile = new BusInfoToFile();
+		final ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
+
+		initializeSetting();
+		
+		exec.scheduleAtFixedRate(new Runnable(){
+
+			@Override
+			public void run() {
+				System.out.println("실행.");
+				checkBusInfo();
+			}
+			
+		}, 0, sleepSec, TimeUnit.SECONDS);
+		
+	}
+	
+	public static void initializeSetting(){
+		
+		readBusNumUrl 		= new ReadingFile();
+		parsingHtml 		= new ParsingHtml();
+		processingHtmlData	= new ProcessingHtmlData();
+		busInfoToFile 		= new BusInfoToFile();
+		
+		recentBusLineInfoMap 	= new HashMap<>();
+		modifiedBusLineInfoMap 	= new HashMap<>();
+		newBusLineInfoMap 		= new HashMap<>();
+		
+	}
+	
+	public static void checkBusInfo(){
+		
+		String 				parsingHtmlResult = null;
 		
 		List<String> 		urlList;
 		List<BusUrlInfo>	busUrlInfoList;
@@ -38,20 +82,18 @@ public class App {
 		List<BusLineInfo>	busLineInfoList = new ArrayList<>();
 		List<String>		operateBusList = new ArrayList<>();
 		
-		
-		//현재 가져온 버스 정보를 보관.
-		//Map<String, List<OutputBusData>> recentBusLineInfoMap = new HashMap<>();
-		//버스번호, 번호판번호, 자료들.
-		Map<String, Map<String, OutputBusData>> recentBusLineInfoMap = new HashMap<>();
-		
-		//수정된 자료를 저장할 공간.
-		Map<String, Map<String, OutputBusData>> modifiedBusLineInfoMap = new HashMap<>();
-		
-		//이전 자료와 비교한 후 새로 보관하는 자료.
-		Map<String, Map<String, OutputBusData>> newBusLineInfoMap = new HashMap<>();
-		
 		urlList = readBusNumUrl.readBusUrl(busUrlInfoPath, busUrlInfoFileName);
 		busUrlInfoList = readBusNumUrl.splitUrlData(",", urlList);
+		
+		//시간설정.
+		//현재시
+		long currentTime = System.currentTimeMillis();
+		
+		SimpleDateFormat dayFormat = new SimpleDateFormat("yyMMdd");
+		SimpleDateFormat timeForamt = new SimpleDateFormat("HHmmss");
+		
+		String day = dayFormat.format(new Date(currentTime));
+		String time = timeForamt.format(new Date(currentTime));
 		
 		
 		//for(int i=0; i<busUrlInfoList.size(); i++){
@@ -64,14 +106,13 @@ public class App {
 			operateBusList = processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, busRegex);
 			busLineInfoList = processingHtmlData.splitRawData(";", operateBusList);
 			
-			dataFromWebList = busInfoToFile.putOutToFile(handleBusNum, busLineInfoList);
+			dataFromWebList = busInfoToFile.putOutToFile(handleBusNum, busLineInfoList, day, time);
 			
 			Map<String, OutputBusData> pairLicenseBusinfoMap = new HashMap<>();
 			
 			for(int j=0; j<dataFromWebList.size(); j++){
 				pairLicenseBusinfoMap.put(dataFromWebList.get(j).getBusLicenseNum(), dataFromWebList.get(j));
 			}
-			
 			newBusLineInfoMap.put(handleBusNum, pairLicenseBusinfoMap);
 		}
 		
@@ -93,14 +134,14 @@ public class App {
 			
 			updatedBusDataMap = busInfoToFile.compareCurrentAndPast(recentBusLineInfoMap.get(handleBusNum), newBusDataList);
 			
-			System.out.println(updatedBusDataMap);
-			
 			modifiedBusLineInfoMap.put(handleBusNum, updatedBusDataMap);
 		}
 		
 		recentBusLineInfoMap.clear();
 		recentBusLineInfoMap.putAll(modifiedBusLineInfoMap);
 		
+		modifiedBusLineInfoMap.clear();
+		newBusLineInfoMap.clear();
 	}
 
 }
