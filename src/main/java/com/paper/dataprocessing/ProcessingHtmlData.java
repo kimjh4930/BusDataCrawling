@@ -35,7 +35,7 @@ public class ProcessingHtmlData {
 
 			busLineInfo.setBusLicense(splitResult[0]);
 			busLineInfo.setBusInterval(splitResult[1]);
-			busLineInfo.setCurrentLocation(splitResult[2]);
+			busLineInfo.setCurrentLocation(Integer.parseInt(splitResult[2]));
 			busLineInfo.setBusType(splitResult[3]);
 			busLineInfo.setFormerBusLicense(splitResult[4]);
 			busLineInfo.setBusInterval(splitResult[5]);

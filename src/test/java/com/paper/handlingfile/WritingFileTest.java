@@ -75,7 +75,7 @@ public class WritingFileTest {
 		OutputBusData outputBusData = new OutputBusData();
 		outputBusData.setDate("170224");
 		outputBusData.setArrivalTime("112233");
-		outputBusData.setBusStopId("1234");
+		outputBusData.setBusStopId(1234);
 		outputBusData.setHangingTime(100);
 		outputBusData.setBusNum("521");
 		outputBusData.setBusLicenseNum("9999999");

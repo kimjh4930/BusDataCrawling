@@ -12,11 +12,11 @@ public class BusLineInfo {
 	
 	private String 	busLicense;
 	private String 	busInterval;
-	private String 	currentLocation;
+	private int 	currentLocation;
 	private String	busType;
 	
 	private String 	formerBusLicense;
-	private String 	formerBusLocation;
+	private int 	formerBusLocation;
 	private String 	busIntervalTime;
 
 }
