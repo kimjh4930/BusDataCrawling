@@ -58,7 +58,7 @@ public class BusInfoToFile {
 					//버스가 이동함.
 					System.out.println(currentData.get(i).getBusNum() + " " + currentData.get(i) + "버스가 이동함.");
 					
-					int elapseTime = timeCalculator.calculateTimeConsumption(pastBusData.getArrivalTime(), currentData.get(i).getArrivalTime());
+					int elapseTime = timeCalculator.calculateTimeConsumption(pastBusData, currentData.get(i));
 					int gapBusStop = currentData.get(i).getBusStopId() - pastBusData.getBusStopId();
 					
 					updatedBusData.setDate(currentData.get(i).getDate());
@@ -72,9 +72,9 @@ public class BusInfoToFile {
 					//변경이 있으면 다시 조회해서 찾는다. db에 저장되어야 할 것 같음.
 					
 					//파일로 뺄 것.
-					//WritingFile writingFile = new WritingFile();
+					WritingFile writingFile = new WritingFile();
 					
-					//writingFile.writeToFile("/Users/junha/Documents/workspace/BusDataCrawling/busResult", updatedBusData);
+					writingFile.writeToFile("/Users/junha/Documents/workspace/BusDataCrawling/busResult", updatedBusData);
 					
 					
 				}else{

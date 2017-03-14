@@ -1,10 +1,21 @@
 package com.paper.handlingfiles;
 
+import com.paper.domain.OutputBusData;
+
 public class TimeCalculator {
 	
-	public int calculateTimeConsumption(String previousTime, String latestTime){
+	public int calculateTimeConsumption(OutputBusData previous, OutputBusData latest){
 		
-		return Integer.parseInt(latestTime) -Integer.parseInt(previousTime);
+		int previousTime = this.transferToSecond(previous.getArrivalTime());
+		int latestTime = this.transferToSecond(latest.getArrivalTime());
+		
+		if(!previous.getDate().equals(latest.getDate())){
+			
+			return (86400 - previousTime) + latestTime;
+			
+		}else{
+			return latestTime - previousTime;
+		}
 		
 	}
 	
