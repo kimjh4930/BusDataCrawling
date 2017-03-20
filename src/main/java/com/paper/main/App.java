@@ -13,11 +13,10 @@ import com.paper.dataprocessing.BusInfoToFile;
 import com.paper.dataprocessing.ParsingHtml;
 import com.paper.dataprocessing.ProcessingHtmlData;
 import com.paper.domain.BusLineInfo;
+import com.paper.domain.BusRoadInfo;
 import com.paper.domain.BusUrlInfo;
-import com.paper.domain.CurrentBusLineInfo;
 import com.paper.domain.OutputBusData;
 import com.paper.handlingfiles.ReadingFile;
-import com.paper.handlingfiles.WritingFile;
 
 public class App {
 	
@@ -26,6 +25,7 @@ public class App {
 	static final String busUrlBasic = "http://bus.incheon.go.kr/iwcm/retrieverouteruninfolist.laf?";
 	
 	static final String busRegex = String.format("\\d{7};\\d+;\\d+;\\d;\\d+;-?\\d+;\\d");
+	static final String roadRegex = String.format("\\d+;\\d{9,10};\\d;\\d+");
 	
 	//버스번호, 번호판번호, 자료들.
 	static Map<String, Map<String, OutputBusData>> recentBusLineInfoMap;
@@ -82,6 +82,10 @@ public class App {
 		List<BusLineInfo>	busLineInfoList = new ArrayList<>();
 		List<String>		operateBusList = new ArrayList<>();
 		
+		//List<BusRoadInfo>	roadInfoList = new ArrayList<>();
+		
+		List<String>		roadSituationList = new ArrayList<>();
+		
 		urlList = readBusNumUrl.readBusUrl(busUrlInfoPath, busUrlInfoFileName);
 		busUrlInfoList = readBusNumUrl.splitUrlData(",", urlList);
 		
@@ -95,18 +99,20 @@ public class App {
 		String day = dayFormat.format(new Date(currentTime));
 		String time = timeForamt.format(new Date(currentTime));
 		
-		
 		//for(int i=0; i<busUrlInfoList.size(); i++){
 		for(int i=0; i<1; i++){
-			List<OutputBusData> dataFromWebList = new ArrayList<>();
+			List<OutputBusData> 		dataFromWebList = new ArrayList<>();
+			Map<String, BusRoadInfo>	roadInfoMap = new HashMap<>();
 			
 			String handleBusNum = busUrlInfoList.get(i).getBusNum();
 			
-			parsingHtmlResult = parsingHtml.DownloadHtml(busUrlBasic + busUrlInfoList.get(i).getBusUrl());
-			operateBusList = processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, busRegex);
-			busLineInfoList = processingHtmlData.splitRawData(";", operateBusList);
+			parsingHtmlResult 		= parsingHtml.DownloadHtml(busUrlBasic + busUrlInfoList.get(i).getBusUrl());
+			operateBusList 			= processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, busRegex);
+			busLineInfoList 		= processingHtmlData.splitRawBusData(";", operateBusList);
+			roadSituationList 		= processingHtmlData.getBusInfoFromRegex(parsingHtmlResult, roadRegex);
+			roadInfoMap 			= processingHtmlData.splitRawRoadData(";", roadSituationList);
+			dataFromWebList 		= busInfoToFile.putOutToFile(handleBusNum, busLineInfoList, roadInfoMap, day, time);
 			
-			dataFromWebList = busInfoToFile.putOutToFile(handleBusNum, busLineInfoList, day, time);
 			
 			Map<String, OutputBusData> pairLicenseBusinfoMap = new HashMap<>();
 			
@@ -114,6 +120,8 @@ public class App {
 				pairLicenseBusinfoMap.put(dataFromWebList.get(j).getBusLicenseNum(), dataFromWebList.get(j));
 			}
 			newBusLineInfoMap.put(handleBusNum, pairLicenseBusinfoMap);
+			
+			//System.out.println(dataFromWebList);
 		}
 		
 		//비교 시작.

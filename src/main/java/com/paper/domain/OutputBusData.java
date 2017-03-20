@@ -8,13 +8,16 @@ public class OutputBusData {
 	private String date;		//yymmdd
 	private String arrivalTime;	//hhmmss
 	
-	private int	   busStopId;
-	private int	   hangingTime;	//걸린시간.
+	private String busStopId;
+	private String hangingTime;	//걸린시간.
 	
 	private String busNum;
 	private String busLicenseNum;
 	
-	private int busStopInterval;
+	private String busStopInterval;
+	
+	private String classifyStop;
+	private String roadSituation;
 	
 	@Override
 	public String toString(){
@@ -25,8 +28,9 @@ public class OutputBusData {
 				String.valueOf(this.getHangingTime()) + "," + 
 				String.valueOf(this.getBusNum()) + "," + 
 				String.valueOf(this.getBusLicenseNum()) + "," + 
-				String.valueOf(this.getBusStopInterval() + "," +
-				String.valueOf(this.getBusStopInterval()));
+				String.valueOf(this.getBusStopInterval()) + "," +
+				String.valueOf(this.getClassifyStop()) + "," +
+				String.valueOf(this.getRoadSituation());
 		
 	}
 	

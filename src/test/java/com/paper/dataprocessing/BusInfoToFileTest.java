@@ -34,7 +34,7 @@ public class BusInfoToFileTest {
 		String current = "7211341;1995;29;3;7211340;862;0, 7211340;572;53;3;7211339;1245;0, 7211339;997;83;3;7016016;-999;0, 7016016;2199;88;3;7015086;-999;0, 7211338;968;113;3;7211337;719;0, 7211337;1958;131;3;7211300;554;0, 7211300;1201;144;3;7211299;705;0, 7211299;2089;169;3;7211258;242;0, 7211258;801;177;3;7015087;-999;0, 7015087;2120;219;3;7015086;419;0, 7015086;2237;234;3;7015085;753;0, 7015085;1457;245;3;7015065;619;0, 7015065;1911;260;3;7015081;593;0, 7015081;303;282;3;7015067;598;0, 7015067;2239;302;3;7015063;428;0, 7015063;1969;314;3;7015062;330;0, 7015062;879;322;3;7015061;847;0, 7015061;2180;339;3;7015060;649;0, 7015060;1907;365;3;0;-999;0, 7111111;1907;360;3;0;-999;0";
 		
 		operateBusListPast = processingHtmlData.getBusInfoFromRegex(past, "\\d{7};\\d+;\\d+;\\d;\\d+;-?\\d+;\\d");
-		busLineInfoListPast = processingHtmlData.splitRawData(";", operateBusListPast);
+		busLineInfoListPast = processingHtmlData.splitRawBusData(";", operateBusListPast);
 		
 		//이전에 저장되어있는 데이터.
 		for(int i=0; i<busLineInfoListPast.size(); i++){
@@ -52,7 +52,7 @@ public class BusInfoToFileTest {
 		
 		//새로운데이터.
 		operateBusListCurrent = processingHtmlData.getBusInfoFromRegex(current, "\\d{7};\\d+;\\d+;\\d;\\d+;-?\\d+;\\d");
-		busLineInfoListCurrent = processingHtmlData.splitRawData(";", operateBusListCurrent);
+		busLineInfoListCurrent = processingHtmlData.splitRawBusData(";", operateBusListCurrent);
 		
 		for(int i=0; i<busLineInfoListCurrent.size(); i++){
 			OutputBusData outputBusDataCurrent = new OutputBusData();
