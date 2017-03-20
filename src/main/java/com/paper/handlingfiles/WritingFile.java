@@ -11,15 +11,14 @@ public class WritingFile {
 		
 		try{
 			
-			File directory = new File(path + "/" +outputBusData.getBusNum());
+			File directory = new File(path + "/");
 			
 			if(!directory.exists()){
 				directory.mkdirs();
 			}
 			
 			File file = new File(path + "/"
-								+ outputBusData.getBusNum() + "/"
-								+ outputBusData.getBusLicenseNum() + ".txt");
+								+ outputBusData.getBusNum() + ".txt");
 			
 			FileWriter fw = new FileWriter(file, true);
 			

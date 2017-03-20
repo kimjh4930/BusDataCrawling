@@ -20,7 +20,7 @@ import com.paper.handlingfiles.ReadingFile;
 
 public class App {
 	
-	static final String busUrlInfoPath = "/Users/junha/Documents/workspace/";
+	static final String busUrlInfoPath = "../";
 	static final String busUrlInfoFileName = "IncheonYeonsuBus.txt";
 	static final String busUrlBasic = "http://bus.incheon.go.kr/iwcm/retrieverouteruninfolist.laf?";
 	
